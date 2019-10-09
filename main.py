@@ -22,6 +22,14 @@ Config.set('graphics', 'width', str('400'))
 Config.set('graphics', 'height', str('500'))
 
 Builder.load_string('''
+#:import utils kivy.utils
+
+#:set cor_fundo1 utils.get_color_from_hex('#d35400')
+#:set cor_fundo2 utils.get_color_from_hex('#f39c12')
+#:set cor_fundo3 utils.get_color_from_hex('#2980b9')
+
+#:set cor_botao utils.get_color_from_hex('#3498db')
+
 <Home>:
 	BoxLayout:
 		orientation: 'vertical'
@@ -29,17 +37,17 @@ Builder.load_string('''
 		padding: 10
 		canvas.before:
 			Color: 
-				rgba: [.5,1,1,1]
+				rgba: cor_fundo1
 			RoundedRectangle:
 				size: self.size
 				pos: self.pos
 			Color: 
-				rgba: [0,0,.8,1]
+				rgba: cor_fundo2
 			RoundedRectangle:
 				size: self.size[0] - 12, self.size[1] - 12
 				pos: self.pos[0] + 6, self.pos[1] + 6
 		BoxLayout:
-			size_hint: 1, .1
+			size_hint: 1, .15
 			TextInput:
 				id: pesquisar_algo
 				text_size: self.size
@@ -53,6 +61,8 @@ Builder.load_string('''
 				text: 'P'
 				font_size: sp('30')
 				size_hint: .2, 1
+				background_color: cor_botao
+				background_normal: ''
 				on_release:
 					modo.text = 'P' if self.text == 'M' else 'M'
 					root.pesquisar_algo()
@@ -119,7 +129,8 @@ BoxLayout:
 		text: '{i}'
 		size_hint: 1,None
 		height: dp('40')
-		background_color: [0,0,1,1]
+		background_color: cor_botao
+		background_normal: ''
 		on_state:
 			bl{codigo}.opacity = 0 if tg{codigo}.state == 'normal' else 1
 			bl{codigo}.height = 0 if tg{codigo}.state == 'normal' else 200
@@ -130,7 +141,7 @@ BoxLayout:
 		opacity: 0
 		canvas.before:
 			Color:
-				rgba: [1,0,0,1]
+				rgba: cor_fundo3
 			Rectangle:
 				size: self.size
 				pos: self.pos
@@ -151,6 +162,7 @@ BoxLayout:
 			self.dynamic_ids[codigo].ids['pergunta'+codigo].text = str(type(i))
 
 class MyApp(App):
+	title = "Verificador de Pacotes"
 	def build(self):
 		return Home()
 
